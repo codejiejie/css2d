@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<style>
+    html,body{
+        width: 100%;height: 100%;
+        margin: 0;
+        padding: 0;
+        background: #000;
+        overflow: hidden;
+    }
+</style>
+<script>
+    window.onload=function () {
+        var body=document.querySelector("body");
+        var a=Math.random()*60-30;
+        setInterval(function(){
+            var a=Math.random()*60-30;
+            body.style.transition="transform 2s ease";
+            body.style.transform="rotate("+a+"deg)";
+        },1000)
+        var clientw=document.documentElement.clientWidth;
+        var clienth=document.documentElement.clientHeight;
+        var arr=[];
+        //创建雨滴 将雨滴放入一个数组  在这里需要使left 随机
+       for(var i=0;i<200;i++){
+           var div=document.createElement("div");
+           div.style.cssText="width:2px;height:6px;background:#fff;position:absolute;left:"+(50+(clientw-100)*Math.random())+"px;top:-300px";
+           div.style.transition="transform 2s ease "+3*Math.random()+"s";
+
+           arr.push(div);
+           document.body.appendChild(div);
+       }
+        //雨滴下落
+        setTimeout(function () {
+            for(var i=0;i<arr.length;i++){
+                arr[i].style.transform="translate(0,"+(clienth+300)+"px)";
+                //设置监听
+                arr[i].addEventListener("webkitTransitionEnd",function () {
+                    this.style.transition="none";
+                    this.style.transform="translate(0,0)";
+                    var that=this;
+                    setTimeout(function(){
+                        that.style.transition="transform 2s ease "+Math.random()*3+"s";
+                        that.style.transform="translate(0,"+(clienth+300)+"px)";
+                    })
+                })
+            }
+        },0)
+
+    }
+</script>
+<body>
+
+</body>
+</html>
